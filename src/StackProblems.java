@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Queue;
 import java.util.Stack;
 
@@ -25,6 +27,9 @@ public class StackProblems {
         //String[] tokens = {"10","6","9","3","+","-11","*","/","*","17","+","5","+"};
         //System.out.println(sta.evalRPN(tokens));
 
+        //Generate Parentheses
+        int n=3;
+        System.out.println(sta.generateParenthesis(n));
     }
     //Valid Parentheses
     public boolean isValid(String s) {
@@ -108,4 +113,37 @@ public class StackProblems {
         return st.peek();
 
     }
+
+
+    public List<String> generateParenthesis(int n) {
+
+        List<String> res=new ArrayList<>();
+
+        StringBuilder sb = new StringBuilder();
+
+        backtrackGP(0,0,n,res,sb);
+
+        return res;
+    }
+
+    public void backtrackGP(int open,int close,int n,List<String> res,StringBuilder sb) {
+        if(open==close&&open==n){
+            res.add(sb.toString());
+            return;
+        }
+        if(open<n){
+            sb.append('(');
+            backtrackGP(open+1,close,n,res,sb);
+            sb.deleteCharAt(sb.length()-1);
+        }
+        if(close<open){
+            sb.append(')');
+            backtrackGP(open,close+1,n,res,sb);
+            sb.deleteCharAt(sb.length()-1);
+        }
+
+    }
+
+
+
 }
