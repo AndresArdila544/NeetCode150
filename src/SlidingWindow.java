@@ -1,3 +1,4 @@
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,9 +13,13 @@ public class SlidingWindow {
         //System.out.println(sw.maxProfit(prices));
 
         //Longest Substring Without Repeating Characters
-        String s = "pwwkew";
-        System.out.println(sw.lengthOfLongestSubstring(s));
+        //String s = "pwwkew";
+        //System.out.println(sw.lengthOfLongestSubstring(s));
 
+        //Longest Repeating Character Replacement
+        String s = "AABABBA";
+        int k = 1;
+        System.out.println(sw.characterReplacement(s, k));
     }
 
     //Best Time to Buy and Sell Stock
@@ -41,7 +46,6 @@ public class SlidingWindow {
         return max;
     }
 
-
     //Longest Substring Without Repeating Characters
     public int lengthOfLongestSubstring(String s) {
 
@@ -62,6 +66,23 @@ public class SlidingWindow {
         return max;
     }
 
+    //Longest Repeating Character Replacement
+    public int characterReplacement(String s, int k) {
 
+        int left = 0;
+        HashMap<Character, Integer> map = new HashMap<>();
+        int max = 0;
+        for(int right = 0; right < s.length(); right++){
+            map.put(s.charAt(right), map.getOrDefault(s.charAt(right), 0)+1);
+            while((right-left+1)-map.values().stream().max(Integer::compare).get()>k){
+                map.replace(s.charAt(left), map.getOrDefault(s.charAt(left), 0)-1);
+                left++;
+            }
+            max = Math.max(max,right-left+1);
+        }
+        return max;
+
+
+    }
 
 }

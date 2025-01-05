@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Queue;
-import java.util.Stack;
+import java.util.*;
 
 public class StackProblems {
 
@@ -28,8 +25,13 @@ public class StackProblems {
         //System.out.println(sta.evalRPN(tokens));
 
         //Generate Parentheses
-        int n=3;
-        System.out.println(sta.generateParenthesis(n));
+        //int n=3;
+        //System.out.println(sta.generateParenthesis(n));
+
+        //Daily Temperatures
+        int[] temperatures = {30,40,50,60};
+        System.out.println(Arrays.toString(sta.dailyTemperatures(temperatures)));
+
     }
     //Valid Parentheses
     public boolean isValid(String s) {
@@ -114,7 +116,7 @@ public class StackProblems {
 
     }
 
-
+    //Generate Parentheses
     public List<String> generateParenthesis(int n) {
 
         List<String> res=new ArrayList<>();
@@ -125,7 +127,7 @@ public class StackProblems {
 
         return res;
     }
-
+    //Generate Parentheses
     public void backtrackGP(int open,int close,int n,List<String> res,StringBuilder sb) {
         if(open==close&&open==n){
             res.add(sb.toString());
@@ -144,6 +146,42 @@ public class StackProblems {
 
     }
 
+    //Daily Temperatures
+    class Pair{
+        int idx;
+        int temp;
+        public Pair(int idx, int temp) {
+            this.idx = idx;
+            this.temp = temp;
+        }
+    }
+    //Daily Temperatures
+    public int[] dailyTemperatures(int[] temperatures) {
+
+        int[] ans=new int[temperatures.length];
+        Stack<Pair> st=new Stack<>();
+
+
+        st.add(new Pair(0,temperatures[0]));
+        for(int i=1;i<temperatures.length;i++){
+            if(temperatures[i]>st.peek().temp){
+                while(!st.isEmpty()&&temperatures[i]>st.peek().temp){
+
+                    Pair p = st.pop();
+                    ans[p.idx]=i-p.idx;
+
+                }
+                st.add(new Pair(i,temperatures[i]));
+
+            }else{
+                st.add(new Pair(i,temperatures[i]));
+            }
+
+        }
+        return ans;
+
+
+    }
 
 
 }
