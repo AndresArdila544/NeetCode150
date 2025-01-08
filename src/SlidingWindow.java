@@ -85,4 +85,53 @@ public class SlidingWindow {
 
     }
 
+    //Permutation in String
+    public boolean checkInclusion(String s1, String s2) {
+        if(s1.length()>s2.length())return false;
+        if(s1.equals(s2))return true;
+        HashMap<Character, Integer> freq = new HashMap<>();
+        HashMap<Character, Integer> freq2 = new HashMap<>();
+        for (int i = 0; i < s1.length(); i++) {
+            freq.put(s1.charAt(i), freq.getOrDefault(s1.charAt(i), 0) + 1);
+            freq2.put(s2.charAt(i), freq2.getOrDefault(s2.charAt(i), 0) + 1);
+        }
+        int match = 0;
+        for (Character c : freq.keySet()) {
+            if(freq.get(c).equals(freq2.getOrDefault(c, 0))){
+                match++;
+            }
+        }
+
+        int left = 0;
+        for(int right = s1.length();right<s2.length();right++){
+            if(match==freq.size())return true;
+            char c = s2.charAt(right);
+            freq2.put(c, freq2.getOrDefault(c,0)+1);
+            if(freq.containsKey(c)){
+                if(freq.get(c).equals(freq2.get(c))){
+                    match++;
+                }else if(freq.get(c)+1==freq2.get(c)){
+                    match--;
+                }
+            }
+
+
+            char c2 = s2.charAt(left);
+            freq2.put(c2, freq2.get(c2)-1);
+            if(freq.containsKey(c2)){
+                if(freq.get(c2).equals(freq2.get(c2))){
+                    match++;
+                }else if(freq.get(c2)-1==freq2.get(c2)){
+                    match--;
+                }
+            }
+            left++;
+
+
+        }
+
+        return match==freq.size();
+
+    }
+
 }
